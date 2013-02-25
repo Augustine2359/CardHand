@@ -10,8 +10,6 @@
 #import "CHHandTableView.h"
 #import "CHHandTableViewCell.h"
 
-#define CARD_WIDTH 100
-
 @interface CHViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) CHHandTableView *handTableView;
@@ -25,9 +23,10 @@
   [super viewDidLoad];
   self.handTableView = [[CHHandTableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
   self.handTableView.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds)/2, CGRectGetWidth(self.view.bounds), CGRectGetHeight(self.view.bounds)/2);
-  self.handTableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+  self.handTableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
   self.handTableView.dataSource = self;
   self.handTableView.delegate = self;
+  self.handTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
   [self.view addSubview:self.handTableView];
 }
 
@@ -58,6 +57,7 @@
   CHHandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
     cell = [[CHHandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier target:self];
+    cell.backgroundColor = [UIColor blackColor];
   }
   
   switch (indexPath.row) {

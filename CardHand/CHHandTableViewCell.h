@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define CARD_WIDTH 100
+#define CARD_HEIGHT 200
+
 @interface CHHandTableViewCell : UITableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(UIViewController *)buttonTarget;

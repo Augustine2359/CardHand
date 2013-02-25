@@ -16,7 +16,6 @@
     self = [super initWithFrame:frame style:style];
     if (self) {
       self.transform = CGAffineTransformMakeRotation(-M_PI_2);
-      self.separatorStyle = UITableViewCellSeparatorStyleNone;
       self.backgroundColor = [UIColor clearColor];
       self.clipsToBounds = NO;
     }

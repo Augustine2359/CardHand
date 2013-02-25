@@ -24,8 +24,7 @@
     self.contentView.transform = CGAffineTransformMakeRotation(M_PI_2);
 
     self.backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    self.backgroundButton.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds));
-    self.backgroundButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.backgroundButton.frame = CGRectMake(0, 0, CARD_WIDTH, CARD_HEIGHT);
     [self.contentView addSubview:self.backgroundButton];
   }
   return self;
@@ -56,7 +55,7 @@
 
 - (void)transformToView:(UIView *)view {
   CGFloat xInView = [self.superview convertPoint:self.center toView:view].x;
-  CGFloat ratioOfPositionToScreen = (xInView + CGRectGetWidth(self.frame)/2) / (CGRectGetWidth(view.frame) + CGRectGetWidth(self.frame));
+  CGFloat ratioOfPositionToScreen = (xInView + CGRectGetWidth(self.frame)/2) / (CGRectGetWidth(view.bounds) + CGRectGetWidth(self.frame));
   ratioOfPositionToScreen *= M_PI;
   CGFloat maximumRotation = 0.5;
   CGAffineTransform transform = CGAffineTransformIdentity;
@@ -66,15 +65,15 @@
   transform = CGAffineTransformMakeRotation(rotation);
 
   CGFloat desiredDistanceFromBottomMiddleOfScreen = CGRectGetHeight(self.frame)/2;
-  CGFloat distanceFromVerticalAxisAtMiddleOfScreen = CGRectGetWidth(view.frame)/2 - xInView;
+  CGFloat distanceFromVerticalAxisAtMiddleOfScreen = CGRectGetWidth(view.bounds)/2 - xInView;
   CGFloat angle = atanf(distanceFromVerticalAxisAtMiddleOfScreen / desiredDistanceFromBottomMiddleOfScreen);
   CGFloat actualDistanceFromBottomMiddleOfScreen = desiredDistanceFromBottomMiddleOfScreen / cosf(angle);
   CGFloat overshotDistance = actualDistanceFromBottomMiddleOfScreen - desiredDistanceFromBottomMiddleOfScreen;
 
   CGFloat transformX = overshotDistance * cosf(angle);
-  if (xInView > CGRectGetWidth(view.frame)/2)
+  if (xInView > CGRectGetWidth(view.bounds)/2)
     transformX *= -1;
-  CGFloat transformY = fabsf(overshotDistance * sinf(angle));
+  CGFloat transformY = fabsf(overshotDistance * sinf(angle))/2;
   transform = CGAffineTransformTranslate(transform, transformX, transformY);
 
   self.backgroundButton.transform = transform;
