@@ -10,7 +10,7 @@
 
 @interface CHHandTableViewCell()
 
-@property (nonatomic, strong) UIView *backgroundColorView;
+@property (nonatomic, strong) UIButton *backgroundButton;
 
 @end
 
@@ -18,20 +18,40 @@
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-      self.selectionStyle = UITableViewCellSelectionStyleNone;
-      self.contentView.transform = CGAffineTransformMakeRotation(M_PI_2);
+  self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+  if (self) {
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+    self.contentView.transform = CGAffineTransformMakeRotation(M_PI_2);
 
-      self.backgroundColorView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds))];
-      self.backgroundColorView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-      [self.contentView addSubview:self.backgroundColorView];
-    }
-    return self;
+    self.backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.backgroundButton.frame = CGRectMake(0, 0, CGRectGetWidth(self.contentView.bounds), CGRectGetHeight(self.contentView.bounds));
+    self.backgroundButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    [self.contentView addSubview:self.backgroundButton];
+  }
+  return self;
+}
+
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(UIViewController *)target{
+  self = [self initWithStyle:style reuseIdentifier:reuseIdentifier];
+  if (self) {
+    [self setButtonTarget:target];
+  }
+  return self;
+}
+
+- (void)setButtonTarget:(UIViewController *)target {
+  [self.backgroundButton addTarget:nil action:nil forControlEvents:UIControlEventAllEvents];
+  [self.backgroundButton addTarget:target action:@selector(scrollToCellWithButton:) forControlEvents:UIControlEventTouchDown];
 }
 
 - (void)setBackground:(UIColor *)color {
-  self.backgroundColorView.backgroundColor = color;
+  [self.backgroundButton setBackgroundColor:color];
+}
+
+- (BOOL)containsButton:(UIButton *)button {
+  if ([self.backgroundButton isEqual:button])
+    return YES;
+  return NO;
 }
 
 - (void)transformToView:(UIView *)view {
@@ -57,7 +77,7 @@
   CGFloat transformY = fabsf(overshotDistance * sinf(angle));
   transform = CGAffineTransformTranslate(transform, transformX, transformY);
 
-  self.backgroundColorView.transform = transform;
+  self.backgroundButton.transform = transform;
 }
 
 @end

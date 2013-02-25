@@ -10,4 +10,6 @@
 
 @interface CHHandTableView : UITableView
 
+- (NSIndexPath *)indexPathForCellWithButton:(UIButton *)button;
+
 @end

@@ -29,21 +29,14 @@
   self.handTableView.dataSource = self;
   self.handTableView.delegate = self;
   [self.view addSubview:self.handTableView];
-  
-  for (NSInteger i=0; i<5; i++) {
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.backgroundColor = [UIColor blackColor];
-    [button setTitle:[NSString stringWithFormat:@"%d", i] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(switchToCard:) forControlEvents:UIControlEventTouchDown];
-    button.tag = i;
-    button.frame = CGRectMake(50*i, 0, 50, 50);
-    [self.view addSubview:button];
-  }
 }
 
-- (void)switchToCard:(UIButton *)button {
-  CGFloat startingScrollOffset = (CGRectGetWidth(self.handTableView.frame) - CARD_WIDTH)/2;
-  [self.handTableView setContentOffset:CGPointMake(0, (button.tag * CARD_WIDTH) - startingScrollOffset) animated:YES];
+- (void)scrollToCellWithButton:(UIButton *)button {
+  NSIndexPath *indexPath = [self.handTableView indexPathForCellWithButton:button];
+  if (indexPath != nil) {
+    CGFloat startingScrollOffset = (CGRectGetWidth(self.handTableView.frame) - CARD_WIDTH)/2;
+    [self.handTableView setContentOffset:CGPointMake(0, (indexPath.row * CARD_WIDTH) - startingScrollOffset) animated:YES];
+  }
 }
 
 #pragma mark - UITableViewDataSource
@@ -64,7 +57,7 @@
   NSString *identifier = @"Identifier";
   CHHandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
-    cell = [[CHHandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    cell = [[CHHandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier target:self];
   }
   
   switch (indexPath.row) {

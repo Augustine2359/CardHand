@@ -10,7 +10,10 @@
 
 @interface CHHandTableViewCell : UITableViewCell
 
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier target:(UIViewController *)buttonTarget;
+- (void)setButtonTarget:(UIViewController *)target;
 - (void)setBackground:(UIColor *)color;
 - (void)transformToView:(UIView *)view;
+- (BOOL)containsButton:(UIButton *)button;
 
 @end
