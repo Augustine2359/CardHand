@@ -27,7 +27,14 @@
   self.handTableView.dataSource = self;
   self.handTableView.delegate = self;
   self.handTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+  self.handTableView.showsHorizontalScrollIndicator = NO;
+  self.handTableView.showsVerticalScrollIndicator = NO;
   [self.view addSubview:self.handTableView];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  [self repositionCards];
 }
 
 - (void)scrollToCellWithButton:(UIButton *)button {
@@ -57,7 +64,6 @@
   CHHandTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
   if (cell == nil) {
     cell = [[CHHandTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier target:self];
-    cell.backgroundColor = [UIColor blackColor];
   }
   
   switch (indexPath.row) {

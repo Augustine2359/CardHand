@@ -22,7 +22,9 @@
   if (self) {
     self.selectionStyle = UITableViewCellSelectionStyleNone;
     self.contentView.transform = CGAffineTransformMakeRotation(M_PI_2);
-
+    self.contentView.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor clearColor];
+    
     self.backgroundButton = [UIButton buttonWithType:UIButtonTypeCustom];
     self.backgroundButton.frame = CGRectMake(0, 0, CARD_WIDTH, CARD_HEIGHT);
     [self.contentView addSubview:self.backgroundButton];
